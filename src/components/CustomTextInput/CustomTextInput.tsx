@@ -7,11 +7,14 @@ type Props = {
   placeholder: String;
   isError: boolean;
   errorMessage: String;
+  autoCapitalize: String;
   onChangeText?: () => void;
 }
 
 const CustomTextInput = (props: Props) => {
-  const {placeholder, isError, errorMessage, onChangeText} = props;
+  const {
+    placeholder, isError, errorMessage, autoCapitalize, onChangeText
+  } = props;
 
   return (
     <>
@@ -28,6 +31,7 @@ const CustomTextInput = (props: Props) => {
           style={styles.caption}
           placeholder={placeholder}
           onChangeText={(val) => onChangeText(val)}
+          autoCapitalize={autoCapitalize}
         />
       </View>
     </>

@@ -81,6 +81,7 @@ function Login() {
         placeholder={strings.email}
         isError={errorEmail}
         errorMessage={strings.required_field}
+        autoCapitalize={'none'}
       />
 
       <PasswordInput
