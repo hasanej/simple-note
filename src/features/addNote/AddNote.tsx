@@ -62,6 +62,7 @@ function AddNote() {
         <Text style={styles.noteTitle}>{strings.note_title}</Text>
 
         <TextInput
+          autoCapitalize={'words'}
           onChangeText={(val) => setNoteTitle(val)}
           style={styles.noteTitleInput}
         />
@@ -74,6 +75,8 @@ function AddNote() {
           onChangeText={(val) => setNoteContent(val)}
           style={styles.noteContentInput}
           multiline={true}
+          autoCapitalize={'sentences'}
+          textAlignVertical={'top'}
         />
       </View>
 
