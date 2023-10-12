@@ -33,8 +33,6 @@ function Login() {
           token: data.token
         }
 
-        console.log(userData);
-
         saveUserData(userData).then(() => {
           Navigation.replace('NoteList');
         });
