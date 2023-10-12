@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
+import {Text, View, Image, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import {useRealm, useObject} from '@realm/react';
 
 import * as Navigation from 'navigation/Navigation';
@@ -46,8 +46,10 @@ function NoteDetail(props) {
   const viewNote = () => {
     return (
       <View style={styles.containerViewNote}>
-        <Text style={styles.selectedNoteTitle}>{selectedNote.title}</Text>
-        <Text style={styles.selectedNoteContent}>{selectedNote.content}</Text>
+        <ScrollView>
+          <Text style={styles.selectedNoteTitle}>{selectedNote.title}</Text>
+          <Text style={styles.selectedNoteContent}>{selectedNote.content}</Text>
+        </ScrollView>
 
         <View style={styles.containerButtonEdit}>
           <Button
@@ -70,6 +72,7 @@ function NoteDetail(props) {
             onChangeText={(val) => setNoteTitle(val)}
             style={styles.noteTitleInput}
             value={noteTitle}
+            autoCapitalize={'words'}
           />
         </View>
 
@@ -81,6 +84,8 @@ function NoteDetail(props) {
             style={styles.noteContentInput}
             multiline={true}
             value={noteContent}
+            textAlignVertical={'top'}
+            autoCapitalize={'sentences'}
           />
         </View>
 

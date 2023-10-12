@@ -53,10 +53,8 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   containerButtonEdit: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    left: 10
+    marginHorizontal: 10,
+    marginBottom: 10
   },
   containerViewNote: {
     flex: 1
