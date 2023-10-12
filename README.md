@@ -10,11 +10,9 @@
 5. XCode 13.2.1
 
 ## User for Testing
-### Biometric Login
-Use your device biometric.
 
 ### Email Login
-Use e-mail `test.reg.1@gmail.com` with password `123456`
+Use e-mail `george.bluth@reqres.in` with password `123456`
 
 ## Testing Simulator
 1. Google Pixel 7 API 33 (Android 13 Tiramisu)
