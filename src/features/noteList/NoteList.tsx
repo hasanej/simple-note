@@ -5,6 +5,8 @@ import {useQuery, useRealm} from '@realm/react';
 
 import * as Navigation from 'navigation/Navigation';
 
+import {AlertConfirmation} from 'components/AlertConfirmation';
+
 import images from 'assets/images';
 import strings from 'assets/strings';
 
@@ -20,6 +22,11 @@ function NoteList() {
   const allNotes = useQuery(Note);
   const isEmpty = allNotes.length == 0 ? true : false;
 
+  const [logoutAlert, setLogoutAlert] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  
+  const [selectedNote, setSelectedNote] = useState({});
+
   useEffect(() => {
     getUserData();
   });
@@ -32,12 +39,6 @@ function NoteList() {
     setEmail(email);
   }
 
-  const logout = async() => {
-    await AsyncStorage.clear().then(() => {
-      Navigation.replace('Login');
-    });
-  }
-
   const addNote = () => {
     Navigation.navigate('AddNote');
   }
@@ -46,10 +47,33 @@ function NoteList() {
     Navigation.navigate('NoteDetail', {id});
   }
 
+  const logout = async() => {
+    await AsyncStorage.clear().then(() => {
+      Navigation.replace('Login');
+    });
+  }
+
+  const cancelLogout = () => {
+    setLogoutAlert(false);
+  }
+
+  const onPressDelete = (note) => {
+    setSelectedNote(note);
+    setDeleteAlert(true);
+  }
+
   const deleteItem = (note: Note) => {
     realm.write(() => {
       realm.delete(note);
     });
+
+    setSelectedNote({});
+    setDeleteAlert(false);
+  }
+
+  const cancelDelete = () => {
+    setSelectedNote({});
+    setDeleteAlert(false);
   }
 
   const renderItem = (item) => (
@@ -69,7 +93,7 @@ function NoteList() {
         </Text>
       </View>
       
-      <TouchableOpacity onPress={() => deleteItem(item)}>
+      <TouchableOpacity onPress={() => onPressDelete(item)}>
         <Image
           source={images.delete}
           resizeMode='contain'
@@ -96,7 +120,7 @@ function NoteList() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={logout}>
+        <TouchableOpacity onPress={() => setLogoutAlert(true)}>
           <Image
             style={styles.cta}
             source={images.logout}
@@ -131,6 +155,30 @@ function NoteList() {
             data={allNotes}
             renderItem={({item}) => renderItem(item)}
             keyExtractor={item => item.id}
+          />
+      }
+
+      { // Logout confirmation
+        logoutAlert &&
+          <AlertConfirmation
+            title={strings.title_logout}
+            content={strings.content_logout}
+            negativeText={strings.no}
+            positiveText={strings.yes}
+            onPressNegative={cancelLogout}
+            onPressPositive={logout}
+          />
+      }
+      
+      { // Delete confirmation
+        deleteAlert &&
+          <AlertConfirmation
+            title={strings.title_delete_note}
+            content={strings.content_delete_note}
+            negativeText={strings.no}
+            positiveText={strings.yes}
+            onPressNegative={cancelDelete}
+            onPressPositive={() => deleteItem(selectedNote)}
           />
       }
     </View>
